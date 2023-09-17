@@ -18,36 +18,23 @@ import java.util.stream.Collectors;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
-    @Autowired
     private final TelegramBot bot;
-//    private final Map<String, Command> commands;
     private final List<Command >commands;
-
     public TelegramBotUpdatesListener(TelegramBot bot,List<Command> commands) {
-        this.bot = bot;
-//        this.commands=commands.stream().collect(Collectors.toMap(Command::commandText, Function.identity()));
         this.commands=commands;
+        this.bot=bot;
     }
-
     @PostConstruct
-    public void init() {
+    void unit(){
         bot.setUpdatesListener(this);
     }
-
     @Override
     public int process(List<Update> updates) {
         for (Update update : updates) {
+            logger.debug("Handle update: {}",update);
             commands.stream()
                     .filter(command -> command.ifSuitable(update))
                     .forEach(command -> command.handle(update));
-
-
-//            var command = commands.get(update.message().text());
-//            if (command!= null){
-//                command.handle(update);
-//            }
-
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
