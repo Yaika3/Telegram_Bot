@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    List<Notification> findAllByDataTime(LocalDateTime dateTime);
+    List<Notification> findAllByDateTime(LocalDateTime dateTime);
 }

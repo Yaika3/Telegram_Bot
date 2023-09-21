@@ -21,7 +21,7 @@ public class NotificationNotifier {
     }
     @Scheduled(timeUnit = TimeUnit.MINUTES,fixedDelay = 1)
     public void notifyTask(){
-        repository.findAllByDataTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
+        repository.findAllByDateTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
                 .forEach(task -> {
                     bot.execute(new SendMessage(task.getChatId(),task.getText()));
                     repository.delete(task);
